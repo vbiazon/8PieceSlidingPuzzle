@@ -79,7 +79,7 @@ void Node::Heuristica_E()
 }
 
 
-void Node::GerarFilhos(Lista<Node>* Frontier, Lista<Node>* Explored, bool isGoal)
+bool Node::GerarFilhos(Lista<Node>* Frontier, Lista<Node>* Explored, int &Qtde_Verif)
 {
 	Node* aux = new Node;
 	aux = this->MoveRi();
@@ -90,9 +90,10 @@ void Node::GerarFilhos(Lista<Node>* Frontier, Lista<Node>* Explored, bool isGoal
 			cout << "Inserido na fronteira" << endl;
 			Frontier->InsereFinal(aux);
 			if (aux->IsGoal()) {
-				isGoal = true;
-				return;
+				Explored->InsereFinal(aux);
+				return true;
 			}
+			Qtde_Verif++;
 		}
 		else
 		{
@@ -107,9 +108,10 @@ void Node::GerarFilhos(Lista<Node>* Frontier, Lista<Node>* Explored, bool isGoal
 			cout << "Inserido na fronteira" << endl;
 			Frontier->InsereFinal(aux);
 			if (aux->IsGoal()) {
-				isGoal = true;
-				return;
+				Explored->InsereFinal(aux);
+				return true;
 			}
+			Qtde_Verif++;
 		}
 		else
 		{
@@ -124,9 +126,10 @@ void Node::GerarFilhos(Lista<Node>* Frontier, Lista<Node>* Explored, bool isGoal
 			cout << "Inserido na fronteira" << endl;
 			Frontier->InsereFinal(aux);
 			if (aux->IsGoal()) {
-				isGoal = true;
-				return;
+				Explored->InsereFinal(aux);
+				return true;
 			}
+			Qtde_Verif++;
 		}
 		else
 		{
@@ -141,15 +144,17 @@ void Node::GerarFilhos(Lista<Node>* Frontier, Lista<Node>* Explored, bool isGoal
 			cout << "Inserido na fronteira" << endl;
 			Frontier->InsereFinal(aux);
 			if (aux->IsGoal()) {
-				isGoal = true;
-				return;
+				Explored->InsereFinal(aux);
+				return true;
 			}
+			Qtde_Verif++;
 		}
 		else
 		{
 			cout << "Ja existe no explorado ou na fronteira" << endl;
 		}
 	}
+	return false;
 }
 
 bool Node::BuscarNodeLista(Lista<Node>* list, Node* Alvo)

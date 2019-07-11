@@ -17,7 +17,7 @@ public:
 	void PrintPuzzle();
 	void Heuristica_M(); // calcula a heuristica pela distancia de manhattan
 	void Heuristica_E(); // calcula heuristica pela quantidade de quadradinhos na posicao correta
-	void GerarFilhos(Lista<Node>* Frontier, Lista<Node>* Explored, bool isGoal);
+	bool GerarFilhos(Lista<Node>* Frontier, Lista<Node>* Explored, int &Qtde_Verif); // retorna true se um dos filhos for a solucao
 	bool BuscarNodeLista(Lista<Node>* list, Node* Alvo);
 	Node* MoveRi();
 	Node* MoveLe();
