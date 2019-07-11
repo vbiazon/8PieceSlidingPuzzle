@@ -128,7 +128,7 @@ T* Lista<T>::RetiraInicio() { //retira valor do inicio da lista
 template<typename T>
 bool Lista<T>::Busca(T* x) { //verifica se existe um valor armazenado na lista e retorna o ponteiro para a posicao caso exista
 	if (isEmpty()) { //Verifica se a lista esta vazia, se estiver lanca excecao
-		throw std::exception("Lista vazia");
+		return false;
 	}
 	Elemento<T>* tmp = ini; //atribui um elemento temporario para o inicio da lista
 	do {

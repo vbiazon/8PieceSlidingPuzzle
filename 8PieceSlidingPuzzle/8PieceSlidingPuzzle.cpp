@@ -38,11 +38,15 @@ void BFS(Grid* Puzzle)
 	Node* NPuzzle = new Node(Puzzle); //Cria no node puzzle para inserir na fronteira
 	frontier->InsereFinal(NPuzzle); // Insere o Node Puzzle na fronteira para comecar a exploracao.
 	int Qtde_Verificacoes = 1;
+	
 
 	// inicio da exploracao BFS para encontrar a solucao.
 	bool isGoal = false;
 	Elemento<Node>* Alvo = new Elemento<Node>;
 
+	Alvo = frontier->GetIni();
+	explored->InsereFinal(frontier->GetIni()->dado);
+	
 	if (Alvo->dado->IsGoal()) { // caso o puzzle inserido já seja o objetivo
 		isGoal = true; // isGoal é verdadeiro
 		cout << "Solucao encontrada" << endl; // mostra solucao encontrada
@@ -52,12 +56,14 @@ void BFS(Grid* Puzzle)
 	{
 
 		explored->InsereFinal(frontier->GetIni()->dado);
-		Alvo = explored->GetFim();
-		Qtde_Verificacoes++;
+		Alvo = frontier->GetIni();
 		cout << "Alvo eh: " << endl;
 		Alvo->dado->PrintPuzzle();
-		cout << "Gerando do alvo: " << endl;
-		Alvo->dado->GerarFilhos(frontier, explored, isGoal);
+		cout << "Gerando filhos do alvo: " << endl;
+		isGoal = Alvo->dado->GerarFilhos(frontier, explored, Qtde_Verificacoes);
+		if (isGoal) {
+			Alvo = explored->GetFim();
+		}
 		cout << "Numero de elementos na fronteira: " << frontier->Qtde << endl;
 		frontier->RetiraInicio();
 	}
@@ -71,7 +77,48 @@ void BFS(Grid* Puzzle)
 }
 
 void DFS(Grid * Puzzle){
+	// Cria estrutura para armazenamento dos itens ja explorados e da fornteira a ser explorada
+	Lista<Node>* frontier = new Lista<Node>(); // Cria a lista para armazenar os nós na fronteira de exploracao
+	Lista<Node>* explored = new Lista<Node>(); // Cria a lista para guardar os nós explorados previamente
+	Node* NPuzzle = new Node(Puzzle); //Cria no node puzzle para inserir na fronteira
+	frontier->InsereFinal(NPuzzle); // Insere o Node Puzzle na fronteira para comecar a exploracao.
+	int Qtde_Verificacoes = 1;
 
+
+	// inicio da exploracao BFS para encontrar a solucao.
+	bool isGoal = false;
+	Elemento<Node>* Alvo = new Elemento<Node>;
+
+	Alvo = frontier->GetIni();
+	explored->InsereFinal(frontier->GetIni()->dado);
+
+	if (Alvo->dado->IsGoal()) { // caso o puzzle inserido já seja o objetivo
+		isGoal = true; // isGoal é verdadeiro
+		cout << "Solucao encontrada" << endl; // mostra solucao encontrada
+	}
+
+	while (isGoal == false) // enquanto nao encontrar a solucao...
+	{
+
+		explored->InsereFinal(frontier->GetIni()->dado);
+		Alvo = frontier->GetIni();
+		cout << "Alvo eh: " << endl;
+		Alvo->dado->PrintPuzzle();
+		cout << "Gerando filhos do alvo: " << endl;
+		isGoal = Alvo->dado->GerarFilhos(frontier, explored, Qtde_Verificacoes);
+		if (isGoal) {
+			Alvo = explored->GetFim();
+		}
+		cout << "Numero de elementos na fronteira: " << frontier->Qtde << endl;
+		frontier->RetiraInicio();
+	}
+
+
+	DSolution(Alvo);
+
+	cout << "O problema foi resolvido com " << Qtde_Verificacoes << " verificacoes e " << Alvo->dado->path_cost << " movimentos." << endl;
+
+	cout << "Fim" << endl;
 }
 
 int main()
@@ -79,7 +126,7 @@ int main()
 	try {
 		
 		// Definicao do quebra cabeca / puzzle a ser resolvido
-		Grid* Puzzle;
+		Grid* Puzzle; // BFS 13 movimentos
 		Puzzle = new Grid;
 		Puzzle->s1->valor = 4;
 		Puzzle->s2->valor = 1;
@@ -91,7 +138,7 @@ int main()
 		Puzzle->s8->valor = 0;
 		Puzzle->s9->valor = 5;
 
-		//Grid* Puzzle;
+		//Grid* Puzzle; // BFS 16 movimentos
 		//Puzzle = new Grid;
 		//Puzzle->s1->valor = 4;
 		//Puzzle->s2->valor = 2;
@@ -103,7 +150,7 @@ int main()
 		//Puzzle->s8->valor = 1;
 		//Puzzle->s9->valor = 8;
 
-		//Grid* Puzzle;
+		//Grid* Puzzle; // BFS 20 movimentos
 		//Puzzle = new Grid;
 		//Puzzle->s1->valor = 4;
 		//Puzzle->s2->valor = 8;
@@ -111,14 +158,35 @@ int main()
 		//Puzzle->s4->valor = 7;
 		//Puzzle->s5->valor = 2;
 		//Puzzle->s6->valor = 5;
-		//Puzzle->s7->valor = 0;
-		//Puzzle->s8->valor = 6;
-		//Puzzle->s9->valor = 1;
+		//Puzzle->s7->valor = 6;
+		//Puzzle->s8->valor = 1;
+		//Puzzle->s9->valor = 0;
 
+		//Grid* Puzzle; // Direct Goal
+		//Puzzle = new Grid;
+		//Puzzle->s1->valor = 1;
+		//Puzzle->s2->valor = 2;
+		//Puzzle->s3->valor = 3;
+		//Puzzle->s4->valor = 4;
+		//Puzzle->s5->valor = 5;
+		//Puzzle->s6->valor = 6;
+		//Puzzle->s7->valor = 7;
+		//Puzzle->s8->valor = 8;
+		//Puzzle->s9->valor = 0;
 
+		//	Grid* Puzzle; // BFS 1 movimento
+		//Puzzle = new Grid;
+		//Puzzle->s1->valor = 1;
+		//Puzzle->s2->valor = 2;
+		//Puzzle->s3->valor = 3;
+		//Puzzle->s4->valor = 4;
+		//Puzzle->s5->valor = 5;
+		//Puzzle->s6->valor = 6;
+		//Puzzle->s7->valor = 7;
+		//Puzzle->s8->valor = 0;
+		//Puzzle->s9->valor = 8;
 
-		BFS(Puzzle);
-
+		DFS(Puzzle);
 
 		cin.get();
 
