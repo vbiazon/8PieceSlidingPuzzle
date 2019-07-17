@@ -26,6 +26,7 @@
     <ClCompile Include="Node.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Index.h" />
     <ClInclude Include="Elemento.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="Lista.h" />
