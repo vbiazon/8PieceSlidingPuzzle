@@ -19,7 +19,7 @@ public:
 	Tile* s7 = NULL;
 	Tile* s8 = NULL;
 	Tile* s9 = NULL;
-	Tile* Empty; // aposnta para qual quadradinho esta com o valor vazio e/ou 0
+	Tile* Empty; // aponta para qual quadradinho esta com o valor vazio e/ou 0
 	void WhereEmpty();
 };
 

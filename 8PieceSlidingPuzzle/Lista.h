@@ -14,6 +14,7 @@ public:
 	void InsereInicio(T* x);// Insere elemento no inicio da lista
 	T* RetiraFinal(); //Retira elemento do final da lista
 	T* RetiraInicio(); //retira elemento do inicio da lista
+	T* RetiraElemento(Elemento<T>* index);// Retira elemento qualquer da lista
 	bool Busca(T* x); //Retorna ponteiro do elemento que contem x, se nao retonra NULL
 	void Imprimir(); //Imprime a lista toda
 	bool isEmpty(); //retorna true para lista vazia, false para lista nao fazia.
@@ -33,6 +34,7 @@ Lista<T>::Lista() // construtor da lista
 {
 	Elemento<T>* ini = NULL;
 	Elemento<T>* fim = NULL;
+
 }
 
 template<typename T>
@@ -126,9 +128,46 @@ T* Lista<T>::RetiraInicio() { //retira valor do inicio da lista
 }
 
 template<typename T>
-bool Lista<T>::Busca(T* x) { //verifica se existe um valor armazenado na lista e retorna o ponteiro para a posicao caso exista
+inline T* Lista<T>::RetiraElemento(Elemento<T>* index)
+{
 	if (isEmpty()) { //Verifica se a lista esta vazia, se estiver lanca excecao
 		throw std::exception("Lista vazia");
+	}
+	T* aux = index->dado; //guarda valor do elemento final numa variavel auxiliar
+	if (Qtde == 1) {//se o elemento proximo ao inicio é nulo, só há um elemento na lista, logo se inicializa os ponteiros fim e ini
+		fim = NULL;
+		ini = NULL;
+		delete index;
+		Qtde--;
+		return aux;
+	}
+	if (Qtde > 1 && index == ini) {//se o elemento proximo ao inicio é nulo, só há um elemento na lista, logo se inicializa os ponteiros fim e ini
+		ini->proximo->anterior = NULL;
+		ini = ini->proximo;
+		delete index;
+		Qtde--;
+		return aux;
+	}
+	if (Qtde > 1 && index == fim) {//se o elemento proximo ao inicio é nulo, só há um elemento na lista, logo se inicializa os ponteiros fim e ini
+		fim->anterior->proximo = NULL;
+		fim = fim->anterior;
+		delete index;
+		Qtde--;
+		return aux;
+	}
+	else {
+		index->proximo->anterior = index->anterior;//atualiza o valor do ponteiro anterior do elemento proximo ao elemento para o elemento anterior do index
+		index->anterior->proximo = index->proximo;//atualiza o valor do ponteiro proximo do elemento anterior ao elemento para o elemento proximo do index
+		delete index;
+		Qtde--;
+		return aux; //retorna valor armazenado
+	}
+}
+
+template<typename T>
+bool Lista<T>::Busca(T* x) { //verifica se existe um valor armazenado na lista e retorna o ponteiro para a posicao caso exista
+	if (isEmpty()) { //Verifica se a lista esta vazia, se estiver lanca excecao
+		return false;
 	}
 	Elemento<T>* tmp = ini; //atribui um elemento temporario para o inicio da lista
 	do {

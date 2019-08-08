@@ -42,7 +42,7 @@ Grid::~Grid()
 
 }
 
-void Grid::WhereEmpty()
+void Grid::WhereEmpty() //verifica onde esta o valor 0 e aponta para este como o valor do empty
 {
 	if (s1->valor == 0) {
 		Empty = s1;
